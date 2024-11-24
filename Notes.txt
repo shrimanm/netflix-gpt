@@ -1,0 +1,352 @@
+***Episode 01***
+
+react is a javascript llibrary and is not a framework
+
+we can use react in our basic html file just by importing the CND link for react and reactDOM
+
+make sure we right the react related code below the CDN links which is used to import react
+
+basically how react works is : 
+
+const parent = React.createElement(                 --
+    "h1",                                             |
+    {id:"parent"},                                    | -> this is only the object as of now, it willl be converted to element when we render this object
+    "hi! this is shri"                                |
+)                                                   --
+
+const root = ReactDOM.createRoot(document.getElementbyId("<id of the html tag>">))     -> accesing the reactDOM element using ID
+
+//final step
+root.render(parent)                                     -> here our parent object is getting rendered as element
+
+-------------------
+
+if we need to create multiple element :
+
+const parent = React.createElement(
+    "h1",
+    {id:"parent"},
+    [
+        React.createElement(
+            'h2',
+            {id:"h2 child"},
+            "im H2 child "
+        ),
+        React.createElement(
+            'div',
+            {id:'div child'},
+            'im div child'
+        )
+    ]
+)
+
+// then follows same step for rendering
+
+-----------
+=====================
+***Episode 02***
+npm doesn't stand for node package manager, there is not correct abbrevatiion for it
+npm is a package manager which we use in our project
+
+-----
+to setup npm we need to use npm init and hit some enters
+
+now package.json willl be created which is used to manage the versions of all the packages used in our app
+
+the main thing in our application is a BUNDLER
+
+what is bundler : 
+it is a tool that processes our application file,
+it bundles all our file to a single file which will reduce the number of http req,
+
+some of the famous bundlers are webpack,parcel,vite
+
+-----
+there are 2 typesof packages we can install
+1. dev dependencies - used only for developemtn purpose
+2. normal dependencies - used always
+
+to istalll the package as dev dependencies we use a command as "npm istall -D <package name>"
+otherwisw we use as "npm istall <package name>"
+
+-----
+when we install a package we can see something as "react":^18.0.1
+
+here ^ tells that in future if there is any minor update in the package, i.e if it has relesed 18.1.0 then that will be automatically installed in our app
+one more is we can use ~ insted of ^ , but the role of ~ is it will upgrade even to the major updated versions, i.e 20.0.1. this is not recommended usually
+
+----
+when we install packages we can see one more file as 'package-lock.json"
+this is created to keep track of all the exact version of our packages
+
+-----
+one more is that node module is installed
+what is this - 
+
+it has all the code or data related to all the packages installed in our app
+
+we can see many things in nodemodules, all these are code of the packages installed and even it will include dependencies of dependencies....... of the package which we install
+this is known as transitive dependencies( dependencies tree)
+-------------
+
+git ignore - we use this file to ignore some of the files when we push our code to github
+ex : /nodemodules
+
+
+nodemodules should not be pushed to github, as it huge and how ever we can re generate that file  in production
+
+package.json and package-lock.json are mainly needed to be pushed on to gihub, cz since it has all the list of packages needed which can be installed in production or anywhere.
+
+basicall package and package-lock json are like references to th e package and nodemodules is the exact package code, so we no need to push node modules everwhere,
+just package and package-lock are enough using which we can re install our node modules where ever we need just by using "npm install" command
+
+
+-------------------
+we use parcel bundler in our app
+
+to run any file, we ca run a command as "npx parcel index.html"
+
+what is this npx now - npm is used to installl the packages where as npx is used to execute the file usingn those installed packages
+--------
+initially we used CDN link to immport react to our project, but that is not usually recommended, cz when the react gets updated we need to manually change the url
+
+best approach is that we can install react using npm installl command.
+and this can be imported in our required file
+
+if we directly use import React from 'react' in out js file it will throw an error
+so we need to make this as module first, for that we need to addd "type=module" in the script tag where we are actually importing our JS file inside HTML file
+
+-----
+
+advantages of parcel - 
+- build our appp
+- host app on server
+- it used HMR - hot module replacement  - it automatically refreshes the page when there are any chages in code
+- it uses file watching algorith using which it does HMR, this algo is written using C++
+- it uses caching - everytime when we hit a save, it reruns the build with even shorter time as it uses cashing, 
+- image optimizaation
+- minification
+- bundling
+- compressing files which reduces time
+- Consisten Hashing
+- code splitting
+- Differential Bundling : to make app support in older browsers as well
+- Good Error Handling
+- Diagnostics
+- Tree shaking - remove unused code
+- provides HTTPS
+- it has different bundles for dev and production
+
+
+to create dev build we use "npx parcel index.html"
+to create a production build we use "npx parcel build index.html"
+
+the build file created are not needed to be pushed to github, as we ll runn the command to create a build in server.
+ only package and package-lock files are needed to be pushed to github
+
+
+--browserlist can be installed and we can play aroud it to make our app compatible with all types of browsers and specific versions
+
+===================
+*** Episode 03***
+
+now we come to JSX, which we use in react in our daily basis
+
+JSX - javascript XML - it is not html inside javascript, it can said as a html like syntax
+
+JSX cannot be directly processed by javascript engine, so we have a llibrary called babel which converts our JSX into js engine readable from
+
+example of jsx element:
+const parent = <h1>this is shri🚀</h1>
+
+rendered as : react.render(parent)
+
+how actually jsx is rendered:
+first JSX is converted into React.Element, then to JS object, then it is converted into html element while rendering
+
+who is converting this - babel is doing alll these
+
+JSX
+---
+    in jsx the attirubtes inside the tags uses camel casing
+    if we write jsx code in multiple line then we need to wrap up using (), to make babel understand that where our jsx starts and ends
+
+React Component
+--------------
+2 ytpes, 
+    class based component - older
+    functional based component - new
+
+  Functional Component - it is just a javascript function - js funciton returning a a jsx component is called functional component
+  -------------------
+        ex:syntax 1
+            const HeadingComp = () => {
+                return <h1> hlo all </h1>
+            }
+
+            syntax2:
+            const HeadingComp = () => (<h1> hlo all </h1>)
+            
+        functional components are rendered slightly different then elements, 
+        ex:
+        root.render(<HeadingComp />)
+
+ComponentComposition - using one component inside another
+
+inside jsx if we want to use js epressions then we have to wrap it inside {}
+ex:
+const HeadingComp = () => {
+                return <h1> hlo {100+200} </h1>
+            }
+
+
+we can use element inside element, component inside component, element inside component, compoenent inside element
+
+jsx sanitises cross site attact
+//
+date = api.getDate()
+
+- const HeadingComp = () => {
+                return <h1> {date} </h1>
+            }
+//
+
+here we have used the api data inside our component,what if an attacker sends a malicious data through the api and tries to hack our browser
+JSX does not blindly render the data which is inside the {}, it will sanitise the data and then render
+this is how jsx is powerful
+
+
+components can be used inside another by 3 ways
+1. <Component />
+2. <component></Component>
+3.{component()}
+
+
+====================================
+***Episode 04***
+config driven UI : 
+controlling the UI based on the data or config. this config is comming from backend
+
+===========================
+***Episode 05***
+2 ytpes of export and import
+
+1. Default Export/import
+export default Header
+import Header from "Header"
+
+2.Named Export/import
+export const Header = ............
+import {Header} from "Header";
+
+reactHook  -it is a normal js funtions
+hooks gives a super power for a normal js variable
+primarly we have useState and useEffect, this is imported in out code using named import inside the {}
+
+variable created using useState hook is called state variable
+when ever the stateVariable is updated,then React rerenders the component
+
+
+how react works behind
+
+React works on reconciliation algorithm or Diff Algorithm which is also knows as react fiber
+
+React used Virtual DOM - it is a re-presentation of actual DOM
+Virtual DOM is a js object of our component
+
+Diff Algorithm - this algo finds the difference between old virtual DOM and new virtual DOM after updating,
+and based on which ever is updated are only rendered in the actual DOM
+
+=========================
+*****Episode06*******
+
+we basically have 2 types of architecture of project in IT
+1. monolythic - here all the frontend,backend API everyone works together and it is a single project in together
+
+2. microservice - here all chuncks are differe project, UI in one project,  api and backend everything is a different project
+- all the projects can use different tech stack, based on the requirement
+
+there are 2 approach to render the data in our app
+1. first call the API and once we get the data then render it in our app
+2. render the app body, then call the API and once the data is received then re render it in app
+react basically uses the 2nd approach.
+
+useEffect - its a react Hook,  which is used to follow the point numbre 2 mentioned above
+ex:
+useEffect(
+    () => {
+        console.log("hi")
+    },[]
+)
+
+what is does is first the body of our app is rendered, once it is completly rendered then it calls useEffect callback function  
+
+---use Shimmer UI for better UX in App until the API data is fetched
+
+
+rendering something based on the condtion is called conditional rendering
+
+====================
+***Episode 07*****
+Routing:
+we will use CreateBrowserRouter to create the routing configuration
+then we use RouteProvider to provide the created route config to render
+
+React applications are called as single page application : when we change the page, it doenst refresh teh whole page, it only renders the new page
+React uses Client side routing
+
+there are 2 types of routing:
+1.server side routing : when we navigate to new link or new page the whole page is reloaded after fetching the data from the API or anywhere.
+2.Client side routing : whole website doesn't reload everytime when we navigate to other page, it just renders the new component
+
+=====================
+******Episode 08****
+
+
+--React Class based component
+
+look for basic syntax and all in google
+
+we have to use super() keyword inside the construstor, cz -
+By calling super(props), we ensure that the parent class (React.Component) performs its necessary initializations,
+ allowing our component to function correctly
+
+
+we have 3 life cycle methods in react class
+-ComponentDidMount - this is called when the component in loaded
+-ComponentDidUpdate - this is called when there is a update in the component, this is called after ComponentDidMount
+-ComponentWillUnmount - this is called while leaving the page and movig to another. when ever we have any timeout intervals 
+    or anyoperation we assign in the componentDidMount and ComponentDidUpdate we need to clear it in this
+
+In ReactFunctional Based component, this all 3 is replaced by UseEffec Hook, which we use11 now
+in UseEffect as well,we will call some operation and set some timeintervals, here, we have a method called return(), 
+    which is used to clear the timeInterval or any operation we create it in UseEffect,
+    this performs similar to ComponentWillUnmount, i.e it is called while leaving the page.
+
+
+
+=========================
+*******Episode 09*********
+-- Custom Hooks 
+---made hooks for showing online and offline status
+
+
+--Lazy Loading or Chunking or Dynamic Bundling or on demand loading or code splitting, V.V.IMP for optimising large scale applications - 
+used to divide the large applications in small chunks so that loading the application will be faster
+we import the component using lazy loading syntax, and then we wrap this component inside Suspense Tag in router page
+
+
+
+=====================
+Testing
+
+install react testing library
+install jest
+install babel dependencies
+configure babel
+configure parcel configfle to disable default babel transpilation
+jest configuration using "npx jest --init"
+install JSDOM library
+install @babel/preset-react to make jsx work in testing
+include this in our babel configuration
+install @tesintg-library/jest-DOM
